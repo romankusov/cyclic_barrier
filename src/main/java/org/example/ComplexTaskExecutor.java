@@ -20,9 +20,13 @@ public class ComplexTaskExecutor {
 
     public void executeTasks(int numberOfTasks) {
         ExecutorService executorService = Executors.newFixedThreadPool(numberOfTasks);
-        for (int i = 0; i < numberOfTasks; i++) {
-            tasks.add(new ComplexTask(i, barrier));
-            executorService.submit(tasks.get(i));
+        try {
+            for (int i = 0; i < numberOfTasks; i++) {
+                tasks.add(new ComplexTask(i, barrier));
+                executorService.submit(tasks.get(i));
+            }
+        } finally {
+            executorService.shutdown();
         }
     }
 
